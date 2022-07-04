@@ -1,17 +1,21 @@
 <template>
   <div id="app">
-    <img src="./assets/logo.png">
-    <!-- named routes로 Header.vue 추가 -->
+    <Header></Header>
     <br>
-    <router-link to="/login">go to login</router-link>
+    <router-link to="/">main</router-link>
+    <router-link to="/login">login</router-link>
     <router-view/>
-    <!-- named routes로 Footer.vue 추가 -->
+    <Footer></Footer>
   </div>
 </template>
 
 <script>
 export default {
-  name: 'App'
+  name: 'App',
+  components: {
+    Header: () => import('@/components/common/Header'),
+    Footer: () => import('@/components/common/Footer'),
+  }
 }
 </script>
 
