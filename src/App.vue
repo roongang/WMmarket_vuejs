@@ -1,13 +1,21 @@
 <template>
   <div id="app">
-    <img src="./assets/logo.png">
+    <Header></Header>
+    <br>
+    <router-link to="/">main</router-link>
+    <router-link to="/login">login</router-link>
     <router-view/>
+    <Footer></Footer>
   </div>
 </template>
 
 <script>
 export default {
-  name: 'App'
+  name: 'App',
+  components: {
+    Header: () => import('@/components/common/Header'),
+    Footer: () => import('@/components/common/Footer'),
+  }
 }
 </script>
 
