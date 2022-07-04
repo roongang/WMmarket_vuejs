@@ -1,7 +1,11 @@
 <template>
   <div id="app">
     <img src="./assets/logo.png">
+    <!-- named routes로 Header.vue 추가 -->
+    <br>
+    <router-link to="/login">go to login</router-link>
     <router-view/>
+    <!-- named routes로 Footer.vue 추가 -->
   </div>
 </template>
 
