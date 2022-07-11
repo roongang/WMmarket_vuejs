@@ -9,11 +9,7 @@ export default new Router({
     {
       path: '/',
       name: 'Main',
-      components: {
-        default: () => import('@/components/HelloWorld'),
-        header: () => import('@/components/common/Header'),
-        footer: () => import('@/components/common/Footer'),
-      }
+      component: () => import('@/components/HelloWorld')
     },
     {
       path: '/login',
