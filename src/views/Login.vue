@@ -11,7 +11,9 @@
                 <input type="password" id="userPasswordInput" class="inputText" ref="userPasswordInput" v-model.trim="user.password" placeholder="비밀번호를 입력해주세요">
             </p>
             <p class="buttons">
-                <button @click.prevent="doLogin" class="buttonBlue">로그인</button>
+                <button @click.prevent="doSignin" class="buttonBlue">로그인</button>
+                <button @click.prevent="doSignout" class="buttonBlue">로그아웃</button>
+                <button @click.prevent="doSignup" class="buttonBlue">회원가입</button>
                 <button @click.prevent="doCancel" class="button">취소</button>
             </p>
         </form>
@@ -19,6 +21,8 @@
     </div>
 </template>
 <script>
+import { mapActions, mapGetters } from 'vuex'
+
 export default{
     name:'Login',
     // TODO : data는 store 로 변경해야함
@@ -32,7 +36,7 @@ export default{
         }
     },
     methods:{
-        doLogin() {
+        doSignin() {
             if(this.user.email == ""){
                 alert("이메일 입력해주세요!!")
                 return
@@ -40,11 +44,36 @@ export default{
                 alert("비밀번호 입력해주세요!!")
                 return
             }
-            alert('로그인 성공!')
+            this.signin({
+                email : this.user.email,
+                password : this.user.password
+            })
         },
+        doSignup() {
+            if(this.user.email == ""){
+                alert("이메일 입력해주세요!!")
+                return
+            } else if(this.user.password == ""){
+                alert("비밀번호 입력해주세요!!")
+                return
+            }
+            this.signup({
+                email : this.user.email,
+                password : this.user.password,
+                nickname : this.user.email,
+                role : 'USER'
+            })
+        },
+        doSignout() {
+            if(document.cookie == null) console.log('로그인 되어있지 않음')
+            else this.signout()
+        }
+        ,
         doCancel() {
             this.$router.push('/');
-        }
+        },
+
+        ...mapActions('userStore',['signin','signup','signout'])
     }
 }
 </script>
