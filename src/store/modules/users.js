@@ -30,6 +30,7 @@ const actions={
             .then((res) => {
                 console.log('action signin :')
                 console.log(res)
+                console.log('cookie :',document.cookie)
                 var session = getCookie('SESSION')
                 commit('SIGNIN',{email,password,session})
             }).catch((err) => {

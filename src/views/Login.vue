@@ -25,7 +25,6 @@ import { mapActions, mapGetters } from 'vuex'
 
 export default{
     name:'Login',
-    // TODO : data는 store 로 변경해야함
     data () {
         return {
             user:{
