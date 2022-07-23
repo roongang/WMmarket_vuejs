@@ -1,4 +1,14 @@
 const { defineConfig } = require('@vue/cli-service')
 module.exports = defineConfig({
-  transpileDependencies: true
+  transpileDependencies: true,
+  devServer: {
+    proxy: {
+      '/api': {
+        target: 'https://wm-market.herokuapp.com',
+        changeOrigin: true,
+      }
+    }
+  },
+  publicPath: '/wmmarket_vuejs',
+  outputDir: 'docs'
 })
