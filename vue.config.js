@@ -8,7 +8,5 @@ module.exports = defineConfig({
         changeOrigin: true,
       }
     }
-  },
-  publicPath: '/wmmarket_vuejs',
-  outputDir: 'docs'
+  }
 })
