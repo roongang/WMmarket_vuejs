@@ -3,7 +3,7 @@ module.exports = defineConfig({
   transpileDependencies: true,
   devServer: {
     proxy: {
-      '/api': {
+      '^/api': {
         target: 'https://wm-market.herokuapp.com',
         changeOrigin: true,
       }
