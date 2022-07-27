@@ -1,24 +1,24 @@
-import axiosService from "@/util/axiosService"
-import { getCookie, deleteCookie } from "@/util/cookieService"
+import { axiosService } from "@/util/axiosUtil"
+import { getCookie, deleteCookie } from "@/util/cookieUtil"
 
 const state={
     email: null,
     password: null,
     nickname: null,
     role: null,
-    session: null
+    sessionId: null
 }
 const getters={}
 const mutations={
-    SIGNIN(state,{email,password,session}) {
+    SIGNIN(state,{email,password,sessionId}) {
         state.email = email
         state.password = password
-        state.session = session
+        state.sessionId = sessionId
     },
     SIGNOUT(state) {
         state.email = null
         state.password = null
-        state.session = null
+        state.sessionId = null
     }
 }
 const actions={
@@ -31,8 +31,8 @@ const actions={
                 console.log('action signin :')
                 console.log(res)
                 console.log('cookie :',document.cookie)
-                var session = getCookie('SESSION')
-                commit('SIGNIN',{email,password,session})
+                var sessionId = getCookie('SESSION')
+                commit('SIGNIN',{email,password,sessionId})
             }).catch((err) => {
                 console.log('signin error')
                 console.log(err)

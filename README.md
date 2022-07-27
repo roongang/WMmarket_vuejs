@@ -1,8 +1,5 @@
 # wmmarket_vuejs
 
-> [Github Page](https://roongang.github.io/wmmarket_vuejs/)
-
-
 ## Project setup
 ```
 npm install

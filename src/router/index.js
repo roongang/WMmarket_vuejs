@@ -10,6 +10,11 @@ const routes = [
     path: '/login',
     name: 'login',
     component: () => import('../views/LoginView.vue')
+  },
+  {
+    path: '/dealPost/write',
+    name: 'dealPostSave',
+    component: () => import('../views/DealPostSaveView.vue')
   }
 ]
 
