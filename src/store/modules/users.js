@@ -1,5 +1,6 @@
 import axiosService from "@/util/axiosService"
 import { getCookie, deleteCookie } from "@/util/cookieService"
+import { signupService, signinService, signoutService } from "@/services/user"
 
 const state={
     email: null,
@@ -23,51 +24,27 @@ const mutations={
 }
 const actions={
     async signin({commit},{email,password}) {
-        await axiosService
-            .post('/signin', {
-                email, password
-            })
-            .then((res) => {
-                console.log('action signin :')
-                console.log(res)
-                console.log('cookie :',document.cookie)
-                var session = getCookie('SESSION')
-                commit('SIGNIN',{email,password,session})
-            }).catch((err) => {
-                console.log('signin error')
-                console.log(err)
-            })
+        if(getCookie('SESSION') != null) {
+            console.log("already signed in");
+            return;
+        }
+        await signinService(email,password);
+        var session = getCookie('SESSION');
+        console.log("session :", session);
+        commit('SIGNIN',{email,password,session});
     },
     async signup({commit},{email,password,nickname,role}) {
-        // Image가 포함되어 multipart/form-data 형태임
-        let form=new FormData()
-        form.append('email',email)
-        form.append('password',password)
-        form.append('nickname',nickname)
-        form.append('role',role)
-
-        await axiosService
-            .post('/users', form)
-            .then((res) => {
-                console.log('action signup :')
-                console.log(res)
-            }).catch((err) => {
-                console.log('signup error')
-                console.log(err)
-            })
+        await signupService(email,password,nickname,role);
     },
     async signout({commit}) {
-        await axiosService
-            .post('/signout')
-            .then((res) => {
-                console.log('action signout :')
-                console.log(res)
-                deleteCookie('SESSION')
-                commit('SIGNOUT')
-            }).catch((err) => {
-                console.log('signout error')
-                console.log(err)
-            })
+        if(getCookie('SESSION') == null || state.session == null) {
+            deleteCookie('SESSION')
+            console.log("already signed out");
+            return;
+        }
+        await signoutService();
+        deleteCookie('SESSION')
+        commit('SIGNOUT')
     },
 }
 
