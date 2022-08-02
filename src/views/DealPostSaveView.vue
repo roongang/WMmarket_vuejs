@@ -20,8 +20,13 @@
             </p>
             <p>
                 <label for="imageInput">이미지 </label>
-                <v-file-input id="dealPostImageInput" type="file" @change="onImageChange" class="input" ref="dealPostImageInput" placeholder="이미지 "></v-file-input>
-                <v-img v-for="(image, index) in dealPost.images" :key="index" :src="image" class="image" contain height="150px" width="200px"></v-img>
+                <input type="file" v-on:change="onFileChange" accept="image/*" multiple="multiple">
+                <!-- eslint-disable -->
+                <div class="row">
+                    <div class="column" v-for="image in dealPost.images">
+                        <img v-bind:src="image" style="width:100%">
+                    </div>
+                </div>            
             </p>
             <p class="buttons">
                 <button @click.prevent="doSave" class="buttonBlue">저장</button>&nbsp;
@@ -45,7 +50,6 @@ export default{
                 price:0,
                 images:[],
             },
-            uploadedImageUrls:[],
         }
     },
     methods:{
@@ -65,19 +69,27 @@ export default{
             this.dealPost.price = 0,
             this.dealPost.images = []
         },
-        onImageChange(images){
-            if(!images){
+        onFileChange(e){
+            var files = e.target.files || e.dataTransfer.files;
+            if(!files.length)
                 return;
+            var reader=new FileReader();
+            this.dealPost.images=[];
+            for(var i=0;i<files.length;i++){
+                var file=files[i];
+                var reader=new FileReader();
+                // url
+                let url=URL.createObjectURL(file);
+                console.log("url : "+url);
+                this.dealPost.images.push(url);
+                /* reader.onload= (e) => {
+                    this.dealPost.images.push(e.target.result);
+                }; */
+                reader.readAsDataURL(file);
             }
-            this.uploadedImageUrls = [];
-            images.array.forEach(image => {
-                this.dealPost.images.push(image);
-                const reader = new FileReader();
-                reader.onload = (e) => {
-                    this.uploadedImageUrls.push(e.target.result);
-                };
-                reader.readAsDataURL(image);
-            });
+        },
+        removeImage(e){
+            this.image=''
         },
         ...mapActions('dealPostStore', ['saveDealPost']),
     },
@@ -85,4 +97,20 @@ export default{
 </script>
 
 <style scoped>
+* {
+  box-sizing: border-box;
+}
+
+.column {
+  float: left;
+  width: 20%;
+  padding: 5px;
+}
+
+/* Clearfix (clear floats) */
+.row::after {
+  content: "";
+  clear: both;
+  display: table;
+}
 </style>

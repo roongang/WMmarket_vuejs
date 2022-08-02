@@ -10,8 +10,12 @@ const actions={
         form.append('content',content)
         form.append('category',category)
         form.append('price',price)
+        console.log('images:',images)
+        Object.values(images).forEach(file=>{
+            form.append('files',file)
+        })
         for(let image of images) {
-            form.append('files',image)
+            // form.append('files',image)
         }
         await axiosService
             .post('/deal-posts', form,{
