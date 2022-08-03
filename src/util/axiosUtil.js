@@ -9,4 +9,4 @@ const axiosService = axios.create({
     withCredentials: true
 })
 
-export default axiosService;
+export { axiosService }

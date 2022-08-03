@@ -1,73 +1,49 @@
-import axiosService from "@/util/axiosService"
-import { getCookie, deleteCookie } from "@/util/cookieService"
+import { getCookie, deleteCookie } from "@/util/cookieUtil";
+import { signupService, signinService, signoutService } from "@/services/user"
 
 const state={
     email: null,
     password: null,
     nickname: null,
     role: null,
-    session: null
+    sessionId: null
 }
 const getters={}
 const mutations={
-    SIGNIN(state,{email,password,session}) {
+    SIGNIN(state,{email,password,sessionId}) {
         state.email = email
         state.password = password
-        state.session = session
+        state.sessionId = sessionId
     },
     SIGNOUT(state) {
         state.email = null
         state.password = null
-        state.session = null
+        state.sessionId = null
     }
 }
 const actions={
     async signin({commit},{email,password}) {
-        await axiosService
-            .post('/signin', {
-                email, password
-            })
-            .then((res) => {
-                console.log('action signin :')
-                console.log(res)
-                console.log('cookie :',document.cookie)
-                var session = getCookie('SESSION')
-                commit('SIGNIN',{email,password,session})
-            }).catch((err) => {
-                console.log('signin error')
-                console.log(err)
-            })
+        if(getCookie('SESSION') != null) {
+            console.log("already signed in");
+            return;
+        }
+        await signinService(email,password);
+        var sessionId = getCookie('SESSION');
+        console.log("sessionId :", sessionId);
+        commit('SIGNIN',{email,password,sessionId});
     },
     async signup({commit},{email,password,nickname,role}) {
-        // Image가 포함되어 multipart/form-data 형태임
-        let form=new FormData()
-        form.append('email',email)
-        form.append('password',password)
-        form.append('nickname',nickname)
-        form.append('role',role)
-
-        await axiosService
-            .post('/users', form)
-            .then((res) => {
-                console.log('action signup :')
-                console.log(res)
-            }).catch((err) => {
-                console.log('signup error')
-                console.log(err)
-            })
+        await signupService(email,password,nickname,role);
     },
     async signout({commit}) {
-        await axiosService
-            .post('/signout')
-            .then((res) => {
-                console.log('action signout :')
-                console.log(res)
-                deleteCookie('SESSION')
-                commit('SIGNOUT')
-            }).catch((err) => {
-                console.log('signout error')
-                console.log(err)
-            })
+        if(getCookie('SESSION') == null || state.sessionId == null) {
+            deleteCookie('SESSION')
+            console.log("already signed out");
+            return;
+        }
+        await signoutService();
+        deleteCookie('SESSION')
+        commit('SIGNOUT')
     },
 }
 

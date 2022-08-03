@@ -2,7 +2,8 @@
   <div id="app">
     <Header></Header>
     <router-link to="/">Home</router-link> &nbsp;
-    <router-link to="/login">Login</router-link>
+    <router-link to="/login">로그인</router-link>&nbsp;
+    <router-link to="/dealPost">거래</router-link>&nbsp;
     <router-view/>
     <Footer></Footer> 
   </div>
