@@ -23,7 +23,7 @@
                 <input type="file" v-on:change="onFileChange" accept="image/*" multiple="multiple">
                 <!-- eslint-disable -->
                 <div class="row">
-                    <div class="column" v-for="image in dealPost.images">
+                    <div class="column" v-for="image in uploadedImages">
                         <img v-bind:src="image" style="width:100%">
                     </div>
                 </div>            
@@ -48,8 +48,9 @@ export default{
                 content:'',
                 category:'',
                 price:0,
-                images:[],
+                files:[],
             },
+            uploadedImages:[],
         }
     },
     methods:{
@@ -59,7 +60,7 @@ export default{
                 content : this.dealPost.content,
                 category : this.dealPost.category,
                 price : this.dealPost.price,
-                images : this.dealPost.images,
+                files : this.dealPost.files,
             })
         },
         doCancel(){
@@ -67,29 +68,24 @@ export default{
             this.dealPost.content = '',
             this.dealPost.category = '',
             this.dealPost.price = 0,
-            this.dealPost.images = []
+            this.dealPost.files = []
+            this.uploadedImages = []
         },
         onFileChange(e){
             var files = e.target.files || e.dataTransfer.files;
             if(!files.length)
                 return;
-            var reader=new FileReader();
-            this.dealPost.images=[];
+            this.dealPost.files=[];
+            this.uploadedImages=[];
             for(var i=0;i<files.length;i++){
-                var file=files[i];
                 var reader=new FileReader();
-                // url
-                let url=URL.createObjectURL(file);
-                console.log("url : "+url);
-                this.dealPost.images.push(url);
-                /* reader.onload= (e) => {
-                    this.dealPost.images.push(e.target.result);
-                }; */
+                var file=files[i];
+                reader.onload= (e) => {
+                    this.uploadedImages.push(e.target.result);
+                };
+                this.dealPost.files.push(file);
                 reader.readAsDataURL(file);
             }
-        },
-        removeImage(e){
-            this.image=''
         },
         ...mapActions('dealPostStore', ['saveDealPost']),
     },
