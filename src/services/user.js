@@ -1,4 +1,4 @@
-import axiosService from "@/util/axiosService";
+import { axiosService } from "@/util/axiosUtil";
 
 function signupService(email, password, nickname, role) {
     let form = new FormData();

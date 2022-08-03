@@ -1,5 +1,4 @@
-import axiosService from "@/util/axiosService"
-import { getCookie, deleteCookie } from "@/util/cookieService"
+import { getCookie, deleteCookie } from "@/util/cookieUtil";
 import { signupService, signinService, signoutService } from "@/services/user"
 
 const state={
@@ -7,19 +6,19 @@ const state={
     password: null,
     nickname: null,
     role: null,
-    session: null
+    sessionId: null
 }
 const getters={}
 const mutations={
-    SIGNIN(state,{email,password,session}) {
+    SIGNIN(state,{email,password,sessionId}) {
         state.email = email
         state.password = password
-        state.session = session
+        state.sessionId = sessionId
     },
     SIGNOUT(state) {
         state.email = null
         state.password = null
-        state.session = null
+        state.sessionId = null
     }
 }
 const actions={
@@ -29,15 +28,15 @@ const actions={
             return;
         }
         await signinService(email,password);
-        var session = getCookie('SESSION');
-        console.log("session :", session);
-        commit('SIGNIN',{email,password,session});
+        var sessionId = getCookie('SESSION');
+        console.log("sessionId :", sessionId);
+        commit('SIGNIN',{email,password,sessionId});
     },
     async signup({commit},{email,password,nickname,role}) {
         await signupService(email,password,nickname,role);
     },
     async signout({commit}) {
-        if(getCookie('SESSION') == null || state.session == null) {
+        if(getCookie('SESSION') == null || state.sessionId == null) {
             deleteCookie('SESSION')
             console.log("already signed out");
             return;
