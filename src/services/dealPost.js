@@ -25,4 +25,21 @@ function saveDealPostService (title, content, category, price, files) {
         });
 }
 
-export { saveDealPostService };
+function getDealPostPageService(page, size) {
+    const params = {
+        page: page,
+        size: size
+    }
+    return axiosService
+        .get("/deal-posts/page",{
+            params : params
+        }).then((res) => {
+            console.log("action getDealPostPage :");
+            console.log(res);
+        }).catch((err) => {
+            console.log("getDealPostPage error");
+            console.log(err);
+        });
+}
+
+export { saveDealPostService, getDealPostPageService };
