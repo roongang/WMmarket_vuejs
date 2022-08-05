@@ -1,4 +1,4 @@
-import { saveDealPostService, getDealPostPageService } from "@/services/dealPost";
+import { saveDealPostService, getDealPostPageService, getDealPostService } from "@/services/dealPost";
 
 const state={}
 const getters={}
@@ -8,7 +8,10 @@ const actions={
         await saveDealPostService(title,content,category,price,files);
     },
     async getDealPostPage({commit},{page,size}) {
-        return getDealPostPageService(page,size);
+        return await getDealPostPageService(page,size);
+    },
+    async getDealPost({commit},{id}) {
+        return await getDealPostService(id);
     }
 }
 

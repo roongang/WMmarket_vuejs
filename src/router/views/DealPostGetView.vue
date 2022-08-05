@@ -1,16 +1,22 @@
 <template>
     <div>
-        <DealPostGet></DealPostGet>
+        <h1>글 확인 뷰</h1>
+        <DealPostGet v-bind:dealPostId="dealPostId"></DealPostGet>
     </div>
 </template>
 
 <script>
-import DealPostGetVue from "@/components/DealPostGet.vue";
+import DealPostGet from "@/components/DealPostGet.vue";
 
 export default {
     name : 'DealPostGetView',
+    data(){
+        return {
+            dealPostId:this.$route.params.id
+        }
+    },
     components : {
-        DealPostGetVue
+        DealPostGet
     }
 }
 </script>

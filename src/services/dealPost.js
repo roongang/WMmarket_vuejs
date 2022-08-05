@@ -42,4 +42,16 @@ function getDealPostPageService(page, size) {
         });
 }
 
-export { saveDealPostService, getDealPostPageService };
+function getDealPostService(id) {
+    return axiosService
+        .get("/deal-posts/" + id)
+        .then((res) => {
+            console.log("action getDealPost :");
+            return res;
+        }).catch((err) => {
+            console.log("getDealPost error");
+            console.log(err);
+        });
+}
+
+export { saveDealPostService, getDealPostPageService, getDealPostService };

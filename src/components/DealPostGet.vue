@@ -2,13 +2,7 @@
     <div>
         <h1>글 조회 컴포넌트 입니다.</h1>
         <form>
-            <p>
-                <label for="dealPostId">글 번호</label>
-                <input type="text" id="dealPostIdInput" v-model="dealPostId" placeholder="글 번호" />
-            </p>
-            <p class="buttons">
-                <button @click.prevent="doGet" class="button">조회</button>&nbsp;
-            </p>
+            <h2>"id : "{{dealPost.id}}</h2>
             <h2>"title : "{{dealPost.title}}</h2>
             <h2>"content : "{{dealPost.content}}</h2>
             <h2>"category : "{{dealPost.category}}</h2>
@@ -19,14 +13,16 @@
 </template>
 
 <script>
-import { mapActions, mapGetters } from 'vuex'
+import { mapActions } from 'vuex'
+import { getDealPostService } from '@/services/dealPost';
 
 export default{
     name : 'DealPostGet',
+    props: ['dealPostId'],
     data(){
         return {
-            dealPostId : '',
             dealPost:{
+                id:'',
                 title:'',
                 content:'',
                 category:'',
@@ -36,11 +32,21 @@ export default{
             uploadedImages:[],
         }
     },
+    created(){
+        console.log("dealPostId : " + this.dealPostId);
+        getDealPostService(this.dealPostId).then((res) => {
+            console.log(res);
+            const dealPost = res.data.data;
+            this.dealPost.id=dealPost.id;
+            this.dealPost.title=dealPost.title;
+            this.dealPost.content=dealPost.content;
+            this.dealPost.category=dealPost.category;
+            this.dealPost.price=dealPost.price;
+            this.dealPost.files=dealPost.files;
+        })
+    },
     methods:{
-        doGet(){
-
-        },
-        ...mapActions('dealPost', ['getDealPost']),
+        ...mapActions('dealPostStore', ['getDealPost']),
     }
 }
 </script>
