@@ -35,7 +35,7 @@ function getDealPostPageService(page, size) {
             params : params
         }).then((res) => {
             console.log("action getDealPostPage :");
-            console.log(res);
+            return res;
         }).catch((err) => {
             console.log("getDealPostPage error");
             console.log(err);
