@@ -25,4 +25,33 @@ function saveDealPostService (title, content, category, price, files) {
         });
 }
 
-export { saveDealPostService };
+function getDealPostPageService(page, size) {
+    const params = {
+        page: page,
+        size: size
+    }
+    return axiosService
+        .get("/deal-posts/page",{
+            params : params
+        }).then((res) => {
+            console.log("action getDealPostPage :");
+            return res;
+        }).catch((err) => {
+            console.log("getDealPostPage error");
+            console.log(err);
+        });
+}
+
+function getDealPostService(id) {
+    return axiosService
+        .get("/deal-posts/" + id)
+        .then((res) => {
+            console.log("action getDealPost :");
+            return res;
+        }).catch((err) => {
+            console.log("getDealPost error");
+            console.log(err);
+        });
+}
+
+export { saveDealPostService, getDealPostPageService, getDealPostService };

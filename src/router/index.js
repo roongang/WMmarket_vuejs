@@ -12,9 +12,19 @@ const routes = [
     component: () => import('./views/LoginView.vue')
   },
   {
-    path: '/dealPost',
-    name: 'dealPost',
-    component: () => import('./views/DealPostView.vue')
+    path: '/dealPost/board',
+    name: 'dealPostBoard',
+    component: () => import('./views/DealPostBoardView.vue')
+  },
+  {
+    path: '/dealPost/save',
+    name: 'dealPostSave',
+    component: () => import('./views/DealPostSaveView.vue')
+  },
+  {
+    path: '/dealPost/:id',
+    name: 'dealPostGet',
+    component: () => import('./views/DealPostGetView.vue')
   }
 ]
 
