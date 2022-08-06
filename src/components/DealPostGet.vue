@@ -8,13 +8,20 @@
             <h2>"category : "{{dealPost.category}}</h2>
             <h2>"price : "{{dealPost.price}}</h2>
             <!-- images -->
+            <!-- eslint-disable -->
+            <div class="row">
+                <div class="column" v-for="image in uploadedImages">
+                    <img v-bind:src="image" style="width:100%">
+                </div>
+            </div>
         </form>
     </div>
 </template>
 
 <script>
-import { mapActions } from 'vuex'
 import { getDealPostService } from '@/services/dealPost';
+import { getDealPostImageService } from '@/services/dealPostImage';
+import { createImageUrl } from '@/util/imageUtil'
 
 export default{
     name : 'DealPostGet',
@@ -27,26 +34,48 @@ export default{
                 content:'',
                 category:'',
                 price:0,
-                files:[],
+                imagesId:[],
             },
             uploadedImages:[],
         }
     },
-    created(){
+    mounted(){
         console.log("dealPostId : " + this.dealPostId);
         getDealPostService(this.dealPostId).then((res) => {
-            console.log(res);
             const dealPost = res.data.data;
             this.dealPost.id=dealPost.id;
             this.dealPost.title=dealPost.title;
             this.dealPost.content=dealPost.content;
             this.dealPost.category=dealPost.category;
             this.dealPost.price=dealPost.price;
-            this.dealPost.files=dealPost.files;
-        })
-    },
-    methods:{
-        ...mapActions('dealPostStore', ['getDealPost']),
+            this.dealPost.imagesId.push(...dealPost.imagesId);
+            for(let i=0; i<dealPost.imagesId.length; i++){
+                getDealPostImageService(dealPost.imagesId[i]).then((res) => {
+                    this.uploadedImages.push(createImageUrl(res));
+                }).catch((err) => {
+                    console.log(err);
+                });
+            }
+        });
     }
 }
 </script>
+
+<style scoped>
+* {
+  box-sizing: border-box;
+}
+
+.column {
+  float: left;
+  width: 20%;
+  padding: 5px;
+}
+
+/* Clearfix (clear floats) */
+.row::after {
+  content: "";
+  clear: both;
+  display: table;
+}
+</style>

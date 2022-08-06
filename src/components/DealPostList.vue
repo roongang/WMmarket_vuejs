@@ -1,9 +1,11 @@
 <template>
     <div>
         <!-- eslint-disable -->
-        <!-- TODO : 하이퍼 링크 추가해야해 -->
         <div v-for="dealPost in dealPosts">
             {{dealPost.id}}
+            <router-link :to="'/dealPost/'+dealPost.id">
+                {{dealPost.title}}
+                </router-link>
         </div>
 
         <VueEternalLoading :load="load"></VueEternalLoading>
