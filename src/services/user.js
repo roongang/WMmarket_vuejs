@@ -40,4 +40,23 @@ function signoutService() {
     });
 }
 
-export { signupService, signinService, signoutService};
+function getUserService(id,email,nickname){
+    const params = {
+        id: id,
+        email: email,
+        nickname: nickname
+    }
+    return axiosService.get("/users",{
+        params : params
+    }).then((res) => {
+        console.log("action getUser :");
+        console.log(res);
+        return res;
+    }).catch((err) => {
+        console.log("getUser error");
+        console.log(err);
+        return err;
+    });
+}
+
+export { signupService, signinService, signoutService, getUserService };
