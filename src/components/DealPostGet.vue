@@ -2,11 +2,11 @@
     <div>
         <h1>글 조회 컴포넌트 입니다.</h1>
         <form>
-            <h2>"id : "{{dealPost.id}}</h2>
-            <h2>"title : "{{dealPost.title}}</h2>
-            <h2>"content : "{{dealPost.content}}</h2>
-            <h2>"category : "{{dealPost.category}}</h2>
-            <h2>"price : "{{dealPost.price}}</h2>
+            <h2>id : {{dealPost.id}}</h2>
+            <h2>title : {{dealPost.title}}</h2>
+            <h2>content : {{dealPost.content}}</h2>
+            <h2>category : {{dealPost.category}}</h2>
+            <h2>price : {{dealPost.price}}</h2>
             <!-- images -->
             <!-- eslint-disable -->
             <div class="row">
@@ -39,7 +39,7 @@ export default{
             uploadedImages:[],
         }
     },
-    mounted(){
+    created(){
         console.log("dealPostId : " + this.dealPostId);
         getDealPostService(this.dealPostId).then((res) => {
             const dealPost = res.data.data;

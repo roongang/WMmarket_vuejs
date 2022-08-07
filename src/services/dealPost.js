@@ -54,4 +54,22 @@ function getDealPostService(id) {
         });
 }
 
-export { saveDealPostService, getDealPostPageService, getDealPostService };
+function updateDealPostService({id, title, content, category, price}) {
+    return axiosService
+        .put("/deal-posts/" + id, {
+            title: title,
+            content: content,
+            category: category,
+            price: price
+        }).then((res) => {
+            console.log("action updateDealPost :");
+            console.log(res);
+            return res;
+        }).catch((err) => {
+            console.log("updateDealPost error");
+            console.log(err);
+            return err;
+        });
+}
+
+export { saveDealPostService, getDealPostPageService, getDealPostService, updateDealPostService };
