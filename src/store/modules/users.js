@@ -10,15 +10,25 @@ const state={
     sessionId: null
 }
 const getters={
+    isLogin(state) {
+        return state.sessionId != null;
+    },
     getId(state) {
         return state.id;
+    },
+    getEmail(state) {
+        return state.email;
+    },
+    getNickname(state) {
+        return state.nickname;
     }
 }
 const mutations={
-    SIGNIN(state,{id,email,password,sessionId}) {
+    SIGNIN(state,{id,email,password,nickname,sessionId}) {
         state.id = id;
         state.email = email
         state.password = password
+        state.nickname = nickname
         state.sessionId = sessionId
     },
     SIGNOUT(state) {
@@ -37,9 +47,11 @@ const actions={
         await signinService(email,password);
         var sessionId = getCookie('SESSION');
         const userRes = await getUserService(null,email,null);
-        const id=userRes.data.data.id;
+        const userData = userRes.data.data;
+        const id=userData.id;
+        const nickname=userData.nickname;
         console.log("sessionId :", sessionId);
-        commit('SIGNIN',{id,email,password,sessionId});
+        commit('SIGNIN',{id,email,password,nickname,sessionId});
     },
     async signup({commit},{email,password,nickname,role}) {
         await signupService(email,password,nickname,role);
