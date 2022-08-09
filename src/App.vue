@@ -5,6 +5,7 @@
     <router-link to="/login">로그인</router-link>&nbsp;
     <router-link to="/dealPost/board">거래글게시판</router-link>&nbsp;
     <router-link to="/dealPost/save">거래글쓰기</router-link>&nbsp;
+    <router-link to="/dealPost/card">거래글카드뷰</router-link>&nbsp;
     <router-view/>
     <Footer></Footer> 
   </div>
