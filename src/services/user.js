@@ -1,11 +1,12 @@
 import { axiosService } from "@/util/axiosUtil";
 
-function signupService(email, password, nickname, role) {
+function signupService(email, password, nickname, role, image) {
     let form = new FormData();
     form.append("email", email);
     form.append("password", password);
     form.append("nickname", nickname);
     form.append("role", role);
+    if(image) form.append("image", image);
 
     return axiosService.post("/users", form
     ).then((res) => {
@@ -59,4 +60,18 @@ function getUserService(id,email,nickname){
     });
 }
 
-export { signupService, signinService, signoutService, getUserService };
+function getUserImageService(id){
+    return axiosService.get("/users/"+id+"/image",{
+        responseType: 'arraybuffer'
+    }).then((res) => {
+        console.log("action getUserImage :");
+        console.log(res);
+        return res;
+    }).catch((err) => {
+        console.log("getUserImage error");
+        console.log(err);
+        return err;
+    });
+}
+
+export { signupService, signinService, signoutService, getUserService, getUserImageService };

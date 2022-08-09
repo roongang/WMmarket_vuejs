@@ -1,5 +1,6 @@
 import { getCookie, deleteCookie } from "@/util/cookieUtil";
-import { signupService, signinService, signoutService, getUserService } from "@/services/user"
+import { createImageUrl } from "@/util/imageUtil";
+import { signupService, signinService, signoutService, getUserService, getUserImageService } from "@/services/user"
 
 const state={
     id: null,
@@ -7,6 +8,7 @@ const state={
     password: null,
     nickname: null,
     role: null,
+    imageUrl: null,
     sessionId: null
 }
 const getters={
@@ -21,21 +23,26 @@ const getters={
     },
     getNickname(state) {
         return state.nickname;
+    },
+    getImageUrl(state) {
+        return state.imageUrl;
     }
 }
 const mutations={
-    SIGNIN(state,{id,email,password,nickname,sessionId}) {
+    SIGNIN(state,{id,email,password,nickname,imageUrl,sessionId}) {
         state.id = id;
-        state.email = email
-        state.password = password
-        state.nickname = nickname
-        state.sessionId = sessionId
+        state.email = email;
+        state.password = password;
+        state.nickname = nickname;
+        state.imageUrl = imageUrl;
+        state.sessionId = sessionId;
     },
     SIGNOUT(state) {
         state.id = null;
-        state.email = null
-        state.password = null
-        state.sessionId = null
+        state.email = null;
+        state.password = null;
+        state.image = null;
+        state.sessionId = null;
     }
 }
 const actions={
@@ -50,11 +57,13 @@ const actions={
         const userData = userRes.data.data;
         const id=userData.id;
         const nickname=userData.nickname;
-        console.log("sessionId :", sessionId);
-        commit('SIGNIN',{id,email,password,nickname,sessionId});
+        const imageRes = await getUserImageService(id);
+        const contentType=imageRes.headers["content-type"];
+        const imageUrl = (contentType.includes('image/')) ? createImageUrl(imageRes) : null;
+        commit('SIGNIN',{id,email,password,nickname,imageUrl,sessionId});
     },
-    async signup({commit},{email,password,nickname,role}) {
-        await signupService(email,password,nickname,role);
+    async signup({commit},{email,password,nickname,role,image}) {
+        await signupService(email,password,nickname,role,image);
     },
     async signout({commit}) {
         if(getCookie('SESSION') == null && state.sessionId == null) {
