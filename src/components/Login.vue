@@ -10,6 +10,11 @@
                 <label for="passwordInput">비밀번호 </label>
                 <input type="password" id="userPasswordInput" class="inputText" ref="userPasswordInput" v-model.trim="user.password" placeholder="비밀번호를 입력해주세요">
             </p>
+            <p>
+                <label for="imageInput">이미지</label>
+                <input type="file" v-on:change="onFileChange" accept="image/*">
+                <img v-if="uploadedImage" v-bind:src="uploadedImage" style="width:30%">
+            </p>
             <p class="buttons">
                 <button @click.prevent="doSignin" class="buttonBlue">로그인</button>&nbsp;
                 <button @click.prevent="doSignout" class="buttonBlue">로그아웃</button>&nbsp;
@@ -30,12 +35,14 @@ export default{
             user:{
                 email:'',
                 password:'',
+                image:null,
             },
+            uploadedImage:null,
             error:''
         }
     },
     methods:{
-        doSignin() {
+        async doSignin() {
             if(this.user.email == ""){
                 alert("이메일 입력해주세요!!")
                 return
@@ -43,12 +50,13 @@ export default{
                 alert("비밀번호 입력해주세요!!")
                 return
             }
-            this.signin({
+            await this.signin({
                 email : this.user.email,
                 password : this.user.password
             })
+            this.clearForm();
         },
-        doSignup() {
+        async doSignup() {
             if(this.user.email == ""){
                 alert("이메일 입력해주세요!!")
                 return
@@ -56,11 +64,12 @@ export default{
                 alert("비밀번호 입력해주세요!!")
                 return
             }
-            this.signup({
+            await this.signup({
                 email : this.user.email,
                 password : this.user.password,
                 nickname : this.user.email,
-                role : 'USER'
+                role : 'USER',
+                image : this.user.image
             })
         },
         doSignout() {
@@ -71,7 +80,20 @@ export default{
         doCancel() {
             this.$router.push('/');
         },
-
+        onFileChange(e) {
+            const file = e.target.files[0]
+            const reader = new FileReader()
+            reader.onload = (e) => {
+                this.uploadedImage = e.target.result
+            }
+            this.user.image=file;
+            reader.readAsDataURL(file)
+        },
+        clearForm() {
+            this.user.email = ''
+            this.user.password = ''
+            this.user.image = null
+        },
         ...mapActions('userStore',['signin','signup','signout'])
     }
 }

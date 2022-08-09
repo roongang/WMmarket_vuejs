@@ -1,5 +1,4 @@
 import { saveDealPostService, getDealPostPageService, getDealPostService } from "@/services/dealPost";
-import { getDealPostImageService } from "@/services/dealPostImage";
 
 const state={}
 const getters={}
