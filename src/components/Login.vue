@@ -42,7 +42,7 @@ export default{
         }
     },
     methods:{
-        doSignin() {
+        async doSignin() {
             if(this.user.email == ""){
                 alert("이메일 입력해주세요!!")
                 return
@@ -50,12 +50,13 @@ export default{
                 alert("비밀번호 입력해주세요!!")
                 return
             }
-            this.signin({
+            await this.signin({
                 email : this.user.email,
                 password : this.user.password
             })
+            this.clearForm();
         },
-        doSignup() {
+        async doSignup() {
             if(this.user.email == ""){
                 alert("이메일 입력해주세요!!")
                 return
@@ -63,7 +64,7 @@ export default{
                 alert("비밀번호 입력해주세요!!")
                 return
             }
-            this.signup({
+            await this.signup({
                 email : this.user.email,
                 password : this.user.password,
                 nickname : this.user.email,
@@ -87,6 +88,11 @@ export default{
             }
             this.user.image=file;
             reader.readAsDataURL(file)
+        },
+        clearForm() {
+            this.user.email = ''
+            this.user.password = ''
+            this.user.image = null
         },
         ...mapActions('userStore',['signin','signup','signout'])
     }
