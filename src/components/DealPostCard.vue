@@ -17,8 +17,11 @@
             </template> -->
 
             <!-- Render a loaded item -->
+            <!-- eslint-disable -->
             <template v-slot:default="{ item, style, index }">
-            <div class="item" :style="style">{{ item }} {{ index }}</div>
+            <div class="item" :style="style">
+                <DealPostCardDetail v-bind:item="item"></DealPostCardDetail>
+            </div>
             </template>
         </Grid>
     </div>
@@ -26,22 +29,21 @@
 
 <script>
 import Grid from "vue-virtual-scroll-grid";
-import { useStore } from 'vuex';
+import DealPostCardDetail from "./DealPostCardDetail.vue";
+import { getDealPostPageService } from "@/services/dealPost";
 
 export default{
     name:'DealPostCard',
     components:{
-        Grid
+        Grid,
+        DealPostCardDetail
     },
     setup () {
-        const store=useStore();
-        const getDealPostPage = ({page,size}) => store.dispatch('dealPostStore/getDealPostPage',{page,size});
         function pageProvider (pageNumber,pageSize) {
             return new Promise(function(resolve) {
-                getDealPostPage({
-                    page:pageNumber,
-                    size:pageSize
-                }).then(res => {
+                getDealPostPageService(
+                    pageNumber,pageSize
+                ).then(res => {
                     console.log("pageNumber, pageSize :",pageNumber,pageSize);
                     return res.data.data.content;
                 }).then(dealPosts => {
@@ -67,11 +69,12 @@ export default{
   display: grid;
   grid-gap: 20px;
   grid-template-columns: repeat(3, 1fr);
+  grid-template-rows: 300px;
 }
 
 .item {
   background-color: lightgray;
-  padding: 100px 0;
+  padding: 10px 0;
   text-align: center;
 }
 </style>
