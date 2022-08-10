@@ -26,6 +26,7 @@ function saveDealPostService (title, content, category, price, files) {
 }
 
 function getDealPostPageService(page, size) {
+    console.log("page, size : " + page + ", " + size);
     const params = {
         page: page,
         size: size

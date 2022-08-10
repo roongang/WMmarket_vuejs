@@ -2,7 +2,7 @@
     <div>
         <Grid
         :length="50"
-        :pageSize="10"
+        :pageSize="5"
         :pageProvider="pageProvider"
         class="grid">
             <template v-slot:probe>
@@ -12,9 +12,9 @@
             </template>
 
             <!-- When the item is not loaded, a placeholder is rendered -->
-            <template v-slot:placeholder="{ index, style }">
+            <!-- <template v-slot:placeholder="{ index, style }">
             <div class="item" :style="style">Placeholder {{ index }}</div>
-            </template>
+            </template> -->
 
             <!-- Render a loaded item -->
             <template v-slot:default="{ item, style, index }">
@@ -26,20 +26,39 @@
 
 <script>
 import Grid from "vue-virtual-scroll-grid";
+import { useStore } from 'vuex';
 
 export default{
     name:'DealPostCard',
     components:{
         Grid
     },
-    setup : () => ({
-        pageProvider : (pageNumber,pageSize) => (
-            new Promise((resolve) => {
-                setTimeout(() => resolve(new Array(pageSize).fill("Loaed Item!"))
-                , Math.round(3000 * Math.random()));
+    setup () {
+        const store=useStore();
+        const getDealPostPage = ({page,size}) => store.dispatch('dealPostStore/getDealPostPage',{page,size});
+        function pageProvider (pageNumber,pageSize) {
+            return new Promise(function(resolve) {
+                getDealPostPage({
+                    page:pageNumber,
+                    size:pageSize
+                }).then(res => {
+                    console.log("pageNumber, pageSize :",pageNumber,pageSize);
+                    return res.data.data.content;
+                }).then(dealPosts => {
+                    console.log("dealPosts :",dealPosts);
+                    const data=new Array();
+                    for(let dealPost of dealPosts){
+                        data.push(dealPost);
+                    }
+                    return data;
+                }).then((data) => resolve(data));
             })
-        )
-    })
+        };
+
+        return {
+            pageProvider
+        }
+    },
 }
 </script>
 
