@@ -5,6 +5,7 @@
         {{dealPost.content}}
         {{dealPost.category}}
         {{dealPost.price}}
+        {{dealPost.viewCnt}}
         <router-link v-if="dealPost.uploadedImages.length>0" :to="'/dealPost/'+dealPost.id">
             <img v-bind:src="dealPost.uploadedImages[0]" style="width:80%">
         </router-link>
@@ -29,6 +30,7 @@ export default{
                 content:'',
                 category:'',
                 price:0,
+                viewCnt:0,
                 imagesId:[],
                 uploadedImages:[],
             },
@@ -40,6 +42,7 @@ export default{
         this.dealPost.content = this.item.content;
         this.dealPost.category = this.item.category;
         this.dealPost.price = this.item.price;
+        this.dealPost.viewCnt = this.item.viewCnt;
         this.dealPost.imagesId.push(...this.item.imagesId);
         this.uploadImages();
     },
