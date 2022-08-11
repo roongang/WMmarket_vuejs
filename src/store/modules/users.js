@@ -15,16 +15,16 @@ const getters={
     isLogin(state) {
         return state.sessionId != null;
     },
-    getId(state) {
+    userId(state) {
         return state.id;
     },
-    getEmail(state) {
+    userEmail(state) {
         return state.email;
     },
-    getNickname(state) {
+    userNickname(state) {
         return state.nickname;
     },
-    getImageUrl(state) {
+    userImageUrl(state) {
         return state.imageUrl;
     }
 }

@@ -74,4 +74,38 @@ function getUserImageService(id){
     });
 }
 
-export { signupService, signinService, signoutService, getUserService, getUserImageService };
+function saveUserLike(id,dealPostId){
+    return axiosService.post("/users/"+id+"/likes",{
+        dealPostId: dealPostId
+    }).then((res) => {
+        console.log("action saveUserLike :");
+        console.log(res);
+        return res;
+    }).catch((err) => {
+        console.log("saveUserLike error");
+        console.log(err);
+        return err;
+    });
+}
+
+function getUserLikedDealPostService(id){
+    return axiosService.get("/users/"+id+"/likes").then((res) => {
+        console.log("action getUserLike :");
+        console.log(res);
+        return res;
+    }).catch((err) => {
+        console.log("getUserLike error");
+        console.log(err);
+        return err;
+    });
+}
+
+export { 
+    signupService, 
+    signinService, 
+    signoutService, 
+    getUserService, 
+    getUserImageService, 
+    saveUserLike,
+    getUserLikedDealPostService
+};
