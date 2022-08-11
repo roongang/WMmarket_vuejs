@@ -7,6 +7,7 @@
             <h2>content : {{dealPost.content}}</h2>
             <h2>category : {{dealPost.category}}</h2>
             <h2>price : {{dealPost.price}}</h2>
+            <h2>viewCnt : {{dealPost.viewCnt}}</h2>
             <!-- images -->
             <!-- eslint-disable -->
             <div class="row">
@@ -19,7 +20,7 @@
 </template>
 
 <script>
-import { getDealPostService } from '@/services/dealPost';
+import { getDealPostService, updateDealPostService } from '@/services/dealPost';
 import { getDealPostImageService } from '@/services/dealPostImage';
 import { createImageUrl } from '@/util/imageUtil'
 
@@ -34,6 +35,7 @@ export default{
                 content:'',
                 category:'',
                 price:0,
+                viewCnt:0,
                 imagesId:[],
             },
             uploadedImages:[],
@@ -48,6 +50,7 @@ export default{
             this.dealPost.content=dealPost.content;
             this.dealPost.category=dealPost.category;
             this.dealPost.price=dealPost.price;
+            this.dealPost.viewCnt=dealPost.viewCnt;
             this.dealPost.imagesId.push(...dealPost.imagesId);
             for(let i=0; i<dealPost.imagesId.length; i++){
                 getDealPostImageService(dealPost.imagesId[i]).then((res) => {
@@ -56,6 +59,11 @@ export default{
                     console.log(err);
                 });
             }
+        });
+        // increase viewCnt
+        updateDealPostService({
+            id:this.dealPostId,
+            viewCnt:++this.dealPost.viewCnt,
         });
     }
 }

@@ -54,13 +54,14 @@ function getDealPostService(id) {
         });
 }
 
-function updateDealPostService({id, title, content, category, price}) {
+function updateDealPostService({id, title, content, category, price, viewCnt}) {
     return axiosService
         .put("/deal-posts/" + id, {
             title: title,
             content: content,
             category: category,
-            price: price
+            price: price,
+            viewCnt: viewCnt
         }).then((res) => {
             console.log("action updateDealPost :");
             console.log(res);
