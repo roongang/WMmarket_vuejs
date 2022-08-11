@@ -22,7 +22,7 @@
 <script>
 import { getDealPostService, increaseDealPostViewCntService } from '@/services/dealPost';
 import { getDealPostImageService } from '@/services/dealPostImage';
-import { createImageUrl } from '@/util/imageUtil'
+import { createImageUrl } from '@/util/imageUtil';
 
 export default{
     name : 'DealPostGet',
@@ -31,6 +31,7 @@ export default{
         return {
             dealPost:{
                 id:'',
+                userId:'',
                 title:'',
                 content:'',
                 category:'',
@@ -46,6 +47,7 @@ export default{
         getDealPostService(this.dealPostId).then((res) => {
             const dealPost = res.data.data;
             this.dealPost.id=dealPost.id;
+            this.dealPost.userId=dealPost.userId;
             this.dealPost.title=dealPost.title;
             this.dealPost.content=dealPost.content;
             this.dealPost.category=dealPost.category;

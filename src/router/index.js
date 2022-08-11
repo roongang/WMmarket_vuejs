@@ -27,6 +27,11 @@ const routes = [
     component: () => import('./views/DealPostGetView.vue')
   },
   {
+    path: '/dealPost/:id/update',
+    name: 'dealPostUpdate',
+    component: () => import('./views/DealPostUpdateView.vue')
+  },
+  {
     path: '/dealPost/card',
     name: 'dealPostCard',
     component: () => import('./views/DealPostCardView.vue')

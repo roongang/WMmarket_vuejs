@@ -5,7 +5,7 @@
             {{dealPost.id}}
             <router-link :to="'/dealPost/'+dealPost.id">
                 {{dealPost.title}}
-                </router-link>
+            </router-link>
         </div>
 
         <VueEternalLoading :load="load"></VueEternalLoading>
