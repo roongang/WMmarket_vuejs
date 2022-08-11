@@ -72,4 +72,19 @@ function updateDealPostService({id, title, content, category, price}) {
         });
 }
 
-export { saveDealPostService, getDealPostPageService, getDealPostService, updateDealPostService };
+function increaseDealPostViewCntService({id, viewCnt}) {
+    return axiosService
+        .put("/deal-posts/" + id + "/view-cnt", {
+            viewCnt: viewCnt
+        }).then((res) => {
+            console.log("action increaseDealPostViewCnt :");
+            console.log(res);
+            return res;
+        }).catch((err) => {
+            console.log("increaseDealPostViewCnt error");
+            console.log(err);
+            return err;
+        });
+}
+
+export { saveDealPostService, getDealPostPageService, getDealPostService, updateDealPostService, increaseDealPostViewCntService };
