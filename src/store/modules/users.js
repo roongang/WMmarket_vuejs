@@ -47,7 +47,7 @@ const mutations={
 }
 const actions={
     async signin({commit},{email,password}) {
-        if(getCookie('SESSION') != null) {
+        if(state.sessionId != null) {
             console.log("already signed in");
             return;
         }
@@ -67,7 +67,6 @@ const actions={
     },
     async signout({commit}) {
         if(getCookie('SESSION') == null && state.sessionId == null) {
-            deleteCookie('SESSION')
             console.log("already signed out");
         } else {
             await signoutService();

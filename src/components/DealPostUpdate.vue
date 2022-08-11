@@ -87,12 +87,14 @@ export default{
                 category : this.dealPost.category,
                 price : this.dealPost.price,
             });
-            // delete images
-            for(let i=0; i<this.dealPost.imagesId.length; i++){
-                await deleteDealPostImageService(this.dealPost.imagesId[i]);
+            if(this.dealPost.newFiles.length>0){
+                // delete images
+                for(let i=0; i<this.dealPost.imagesId.length; i++){
+                    await deleteDealPostImageService(this.dealPost.imagesId[i]);
+                }
+                // save images
+                await saveDealPostImageService(this.dealPost.id,this.dealPost.newFiles);
             }
-            // save images
-            await saveDealPostImageService(this.dealPost.id,this.dealPost.newFiles);
             this.$router.push('/dealPost/board');
         },
         onFileChange(e){
