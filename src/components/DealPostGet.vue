@@ -7,6 +7,7 @@
             <h2>content : {{dealPost.content}}</h2>
             <h2>category : {{dealPost.category}}</h2>
             <h2>price : {{dealPost.price}}</h2>
+            <h2>viewCnt : {{dealPost.viewCnt}}</h2>
             <!-- images -->
             <!-- eslint-disable -->
             <div class="row">
@@ -19,9 +20,9 @@
 </template>
 
 <script>
-import { getDealPostService } from '@/services/dealPost';
+import { getDealPostService, increaseDealPostViewCntService } from '@/services/dealPost';
 import { getDealPostImageService } from '@/services/dealPostImage';
-import { createImageUrl } from '@/util/imageUtil'
+import { createImageUrl } from '@/util/imageUtil';
 
 export default{
     name : 'DealPostGet',
@@ -30,11 +31,13 @@ export default{
         return {
             dealPost:{
                 id:'',
+                userId:'',
                 title:'',
                 content:'',
                 category:'',
                 price:0,
                 imagesId:[],
+                viewCnt:0,
             },
             uploadedImages:[],
         }
@@ -44,10 +47,12 @@ export default{
         getDealPostService(this.dealPostId).then((res) => {
             const dealPost = res.data.data;
             this.dealPost.id=dealPost.id;
+            this.dealPost.userId=dealPost.userId;
             this.dealPost.title=dealPost.title;
             this.dealPost.content=dealPost.content;
             this.dealPost.category=dealPost.category;
             this.dealPost.price=dealPost.price;
+            this.dealPost.viewCnt=dealPost.viewCnt;
             this.dealPost.imagesId.push(...dealPost.imagesId);
             for(let i=0; i<dealPost.imagesId.length; i++){
                 getDealPostImageService(dealPost.imagesId[i]).then((res) => {
@@ -57,6 +62,12 @@ export default{
                 });
             }
         });
+        // increase viewCnt
+        const updateViewCnt=1;
+        increaseDealPostViewCntService({
+            id:this.dealPostId,
+            viewCnt:updateViewCnt
+        }).then(res => this.dealPost.viewCnt += updateViewCnt);
     }
 }
 </script>

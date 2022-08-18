@@ -1,11 +1,11 @@
 <template>
     <div v-if="isLogin">
         <h2>로그인 유저 정보</h2>
-        <p>아이디 : {{ getId }}</p>
-        <p>이메일 : {{ getEmail }}</p>
-        <p>닉네임 : {{ getNickname }}</p>
+        <p>아이디 : {{ userId }}</p>
+        <p>이메일 : {{ userEmail }}</p>
+        <p>닉네임 : {{ userNickname }}</p>
         <p>사진 : 
-            <img v-if="getImageUrl" v-bind:src="getImageUrl" style="width:30%">
+            <img v-if="userImageUrl" v-bind:src="userImageUrl" style="width:30%">
         </p>
     </div>
     <div v-else>
@@ -27,7 +27,7 @@ export default{
         }
     },
     computed : {
-        ...mapGetters('userStore',['isLogin','getId','getEmail','getNickname','getImageUrl']),
+        ...mapGetters('userStore',['isLogin','userId','userEmail','userNickname','userImageUrl']),
     },
 }
 </script>

@@ -5,7 +5,7 @@
             {{dealPost.id}}
             <router-link :to="'/dealPost/'+dealPost.id">
                 {{dealPost.title}}
-                </router-link>
+            </router-link>
         </div>
 
         <VueEternalLoading :load="load"></VueEternalLoading>
@@ -14,7 +14,7 @@
 
 <script>
 import { VueEternalLoading } from '@ts-pro/vue-eternal-loading';
-import { mapActions } from 'vuex'
+import { getDealPostPageService } from '@/services/dealPost';
 
 export default {
     name : 'DealPostList',
@@ -30,10 +30,9 @@ export default {
     },
     methods:{
         loadDealPosts(){
-            return this.getDealPostPage({
-                page:this.page,
-                size:this.size
-            }).then( res => res.data.data.content);
+            return getDealPostPageService(
+                this.page,this.size
+            ).then( res => res.data.data.content);
         },
         async load({ loaded }){
             const dealPosts = await this.loadDealPosts();
@@ -41,7 +40,6 @@ export default {
             this.page += 1;
             loaded(dealPosts.length,this.size);
         },
-        ...mapActions('dealPostStore', ['getDealPostPage']),
     },
 }
 </script>
