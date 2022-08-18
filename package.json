@@ -15,7 +15,8 @@
     "vue-router": "^4.0.3",
     "vue-virtual-scroll-grid": "^1.7.1",
     "vuetify": "^2.6.7",
-    "vuex": "^4.0.0"
+    "vuex": "^4.0.0",
+    "vuex-persistedstate": "^4.1.0"
   },
   "devDependencies": {
     "@babel/core": "^7.12.16",
