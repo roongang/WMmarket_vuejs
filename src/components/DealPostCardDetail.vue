@@ -12,16 +12,23 @@
         <router-link v-else :to="'/dealPost/'+dealPost.id">
             <img id="deafaultImage" src="@/assets/wm-logo-dark.png" style="width:80%">
         </router-link>
+        <!-- 거래글 좋아요 -->
+        <DealPostLike v-bind:userId="userId" v-bind:dealPostId="dealPost.id"></DealPostLike>
     </div>
 </template>
 
 <script>
 import { getDealPostImageService } from '@/services/dealPostImage'
 import { createImageUrl } from '@/util/imageUtil'
+import DealPostLike from '@/components/DealPostLike.vue'
+import { mapGetters } from 'vuex'
 
 export default{
     name : 'DealPostCardDetail',
     props : ['item'],
+    components : {
+        DealPostLike,
+    },
     data(){
         return {
             dealPost:{
@@ -45,6 +52,9 @@ export default{
         this.dealPost.viewCnt = this.item.viewCnt;
         this.dealPost.imagesId.push(...this.item.imagesId);
         this.uploadImages();
+    },
+    computed : {
+        ...mapGetters('userStore',['userId']),
     },
     methods : {
         uploadImages(){

@@ -74,7 +74,7 @@ function getUserImageService(id){
     });
 }
 
-function saveUserLike(id,dealPostId){
+function saveUserLikeService(id,dealPostId){
     return axiosService.post("/users/"+id+"/likes",{
         dealPostId: dealPostId
     }).then((res) => {
@@ -83,6 +83,22 @@ function saveUserLike(id,dealPostId){
         return res;
     }).catch((err) => {
         console.log("saveUserLike error");
+        console.log(err);
+        return err;
+    });
+}
+
+function deleteUserLikeService(id,dealPostId){
+    return axiosService.delete("/users/"+id+"/likes",{
+        data: {
+            dealPostId: dealPostId
+        }
+    }).then((res) => {
+        console.log("action deleteUserLike :");
+        console.log(res);
+        return res;
+    }).catch((err) => {
+        console.log("deleteUserLike error");
         console.log(err);
         return err;
     });
@@ -106,6 +122,7 @@ export {
     signoutService, 
     getUserService, 
     getUserImageService, 
-    saveUserLike,
+    saveUserLikeService,
+    deleteUserLikeService,
     getUserLikedDealPostService
 };
