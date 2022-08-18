@@ -1,7 +1,8 @@
 <template>
     <div>
         <!-- 글 좋아요 버튼 -->
-        <div v-if="isLiked">
+        <div v-if="!userId"></div>
+        <div v-else-if="isLiked">
             <button v-on:click="doUnlike">좋아요 취소</button>
         </div>
         <div v-else>
